@@ -54,7 +54,7 @@ if st.button('Make Prediction'):
     prediction = model.predict(input_df)
     st.write(responses[prediction[0]])
 
-    # display stock images and lead conversion attempt based on output.
+    # display nice stock images and lead conversion attempt based on output.
     if prediction[0] == 0:
         st.image('https://cdn.discordapp.com/attachments/1046174858372972594/1081039612065103922/lesbian-couple-buy-new-house-agent-giving-cottage-keys-female-characters-holding-hands-homosexual-family-buying-real-estate-property-mortgage-loan-home-purchase-line-art-vector-illustration_107791-11139.png',
                  "That's what we're here for! Talk to one of our consultants for free today by dialing 123-321-1234")
