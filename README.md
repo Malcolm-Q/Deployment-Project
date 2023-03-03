@@ -18,14 +18,14 @@ In this project we're building and deploying a loan eligibility estimator based 
 I want to get more familiar with the bridge between backend and frontend development and expirement with Streamlit.
 
 ## <u>Hypothesis</u>
-I know that people with healthy responsible credit history, good consistent income, few deliquencies and inquiries, lower utilization, and assets that contribute to total available credit **get the best loans.**
+I know that people with healthy responsible credit history, good consistent income, few deliquencies and inquiries, lower utilization, and high available credit **get the best loans.**
 
 I think people with **higher income and education** will have the highest correlation to these stats being in a positive state. However it's obviously not perfectly linear. Anyone can pop or misuse / misunderstand a credit card, go bankrupt, be in between jobs / less than 3 months on the job.
 
 **This hypothesis can be tested** by doing EDA, pivot tables are especially handy, we can also check the feature importance in our model, do some PCA and see what the heaviest features in the first x PCs are, use a for loop to try a bunch of predictions on our model incrementing / changing two or three features and plot them coloring by the decision.
 
 ## <u>EDA </u>
-**There's lots of biased data** but since it's not too extreme and we're predicting loan eligibility by the demographic we think they belong to and not by their individual attributes we're going to leave it in. For example ~69% of men get approved and ~67% of females get approved, this will produce bias, but not a bias that's too strong. The gap in Education is much more significant at ~20% so our model will be biased against the uneducated but again I don't think this is unjust because if you're uneducated statistically you have lower income, less financial knowledge, and overall more trouble with approvals. I could go on about bias for a while but I hope you see the point.
+**There's lots of biased data** but since it's not too extreme and we're predicting loan eligibility by the demographic we think they belong to and not by their individual attributes we're going to leave it in. For example ~69% of men get approved and ~67% of females get approved, this will produce bias, but not a bias that's too strong. The gap in Education is much more significant at ~20% so our model will be biased against the uneducated like myself but again I don't think this is unjust because if you're uneducated statistically you have lower income, less financial knowledge, and overall more trouble with approvals. I could go on about bias for a while but I hope you see the point.
 
 The **data seems to be collected from around the same area** which is likely not around a 'hotspot' in the country like Vancouver or Toronto. The mean loan amount is 145k. Over here on Vancouver Island I'm not sure a real estate agent would shake my hand for 145k.
 
@@ -33,11 +33,13 @@ An interesting discovery is unlike females, males who are approved have on avera
 
 Another thing is **self employment.** This is a very important question as self employment and loans for incorporated entities is a tricky and polarizing side of banking. If we knew how long each person had been self employed for it would greatly help our predictions. There's many factors in self employment like how they're paying themselves, how long they've been afloat, and how consistent their income is. A lot of times self employed or incorporated entities will want to get loans for assets early on and will have a very hard time getting even a small loan because they don't have solid income yet or solid, if any, credit. These same people/entities years later can take out massive loans without sweating through the same lenders that rejected them before. This creates a very polarizing landscape where on one side they're struggling to get a $50k loan and on the other side they're effortlessly taking out $5M loans and rapidly acruing assets increasing their available credit.
 
+People without coapplicants have a **higher chance of getting approved**. This makes sense because if you're being sent out alone either your credit is pretty good or you have no connections/people who are willing to go on a loan with you. The latter isn't too common.
+
 ## <u>Process</u>
-(fill in what you did during EDA, cleaning, feature engineering, modeling, deployment, testing)
 - For **EDA** I explored the data concisely using lots of subplots and some verbal stats.
 - for **cleaning** I made a [cleaning module](/notebooks/modules/cleaning.py) to fill all values in a way that's most appropriate to each column
 - I also investigated and addressed other concerns like multiple dtypes in columns
+- We can drop columns like Gender and Education as they aren't needed but I'm going to keep them in as they aren't that important to our model and the focus here is more on deployment. **If this was a real model and a real deployment I would 100% drop them though.** Then I would just collect the gender and whatever else and not process it but just include it in the generated lead. Cold calls are hard and any information helps!
 - For **feature engineering and modeling** I didn't do anything too crazy because my focus with this project was more so deployment
 - With that being said I did run two grid searches on my xgboost model and compared the results before and after using 'print_scores()' from my [evaluation module](/notebooks/modules/eval.py)
 - The first grid search explored broad values and the second explored a finer range of values centered on the chosen values from the first grid search.
